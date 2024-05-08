@@ -1,0 +1,96 @@
+1)No, the function would not function on a freshly purchased smartphone. The /proc filesystem is a virtual filesystem that provides information about the running processes on a Linux system. It is not accessible to user-space applications on Android devices by default. In order to access the /proc filesystem, the developer would need to root the device. The /proc filesystem in Linux (and by extension Android) exposes a variety of system and process information. Most of this data is readable without special permissions, though some specific files might be protected or require root access to either read or write, especially those that can impact the system's security or stability.  Rooting a device gives the user full access to the operating system, including the ability to mount and unmount filesystems.
+
+2)For enabling additional gestures using a fingerprint for a visually challenged user on Android one can use the Android's Accessibility Services which are designed to make android devices and interfaces more accessible to people, one can utilize the BiometricPrompt API, introduced in Android 9 (API level 28) for fingerprint authentication. This API provides a standard way to use biometric authentication such as fingerprint, face, or iris recognition. The additional gestures can be implemented using native code, but it's not strictly necessary. Native code does have the added benefit of Long Short Term Memory as performance is important to a service which is repeatedly used, so it is often useful to have native code build in. You can achieve this functionality using a combination of Android's built-in accessibility features and custom UI components. 
+
+3)Using the same default password across an entire range of IoT devices is a major security flaw. Hackers can easily find and exploit these default passwords, which can lead to unauthorized access to devices and potentially stolen sensitive information. They become susceptible to Distributed Denial of Service attacks because they are used in large numbers and their security policies are lax. They are also susceptible to attacks like Brute-force attacks: Weak passwords and login details leave IoT devices vulnerable to password hacking and brute-forcing.
+
+4)This could be achieved by task partitioning with the use of Remote Procedural Calls (RPCs) (Distributed Systems and Networks). The offloading framework would analyze the function and break it down into smaller tasks that can be executed independently. By identifying computationally intensive portions, it can prioritize offloading those segments to the cloud. While performing the less resource intensive tasks on the mobile itself. We can use the Graph Partitioning problem and Kernel Convolutions. Using this effectively can help reduce battery consumption and help balance the network communication latency overhead.
+
+5)Yes, it is possible for two Android apps to communicate with each other using FIFOs/named pipes.
+Here is a short code to explain how to do it:
+public class MyActivity extends Activity {
+
+    private Handler handler;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_my);
+
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+            }
+        };
+
+        String pipeName = "/data/local/tmp/my_pipe";
+        NamedPipe pipe = new NamedPipe(pipeName);
+
+        new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    String message = pipe.read();
+
+                    Message msg = handler.obtainMessage();
+                    msg.obj = message;
+                    handler.sendMessage(msg);
+                }
+            }
+        }.start();
+    }
+}
+
+
+6)No, unlocking the bootloader on an Android device voids the device's warranty, including software and hardware support. Unlocking the bootloader removes the check for the manufacturer's signature in the OS when the device is turned on, meaning the manufacturer can't guarantee that the device will work properly. 
+Unlocking the bootloader is necessary to install a custom ROM, which allows the device's firmware to be modified. However, it is not recommended to do so within the device's warranty period. Unlocking the bootloader may also make the device more susceptible to data theft. Sometimes manufacturers allow for bootloaders to be unlocked without the warranty being voided.
+
+7)Yes, it's possible to achieve better accuracy than 1 meter using LocationService, even if GPS provides a best accuracy of 1 meter. Location services often utilize a combination of technologies and methods to improve accuracy, especially in environments where GPS signals might be obstructed or weakened, such as indoors or in urban canyons.
+Some strategies culd be:
+Multi-Sensor Fusion: Location services can integrate data from multiple sensors, such as accelerometers, gyroscopes, magnetometers, and barometers, along with GPS, to improve accuracy. This fusion of sensor data allows for better positioning even when GPS signals are weak or unavailable. It also uses other network capabilities such as Wifi, Cellular Network and other techniques such as even localization through contacts to narrow down location.
+
+
+8)Running SensorManager when the app is in the background can indeed pose some challenges and considerations. Here are a few potential issues:
+Battery Drain: SensorManager continuously monitors sensor data, which can consume significant battery power if not managed properly.
+Resource Consumption: Continuous sensor data processing can consume CPU and memory resources, which might compete with other apps or system processes running in the background. 
+Privacy Concerns: Collecting sensor data in the background might raise privacy concerns among users. 
+Data Usage: Transmitting sensor data over the network while the app is in the background can contribute to data usage, which might be a concern for users with limited data plans.
+Background Execution Limitations: Depending on the platform (such as Android or iOS), there may be limitations or restrictions on background execution, especially for tasks like continuous sensor monitoring. Violating these restrictions can lead to the app being killed or restricted by the operating system.
+
+
+9)Yes, there's a way. It can be done so using 
+class abc{
+	static {
+		loadlibrary("libx.so") 
+		}
+	}
+
+Then one can use things like public native void nativemethod();
+to declare native functions and use them
+
+This tells the code to run this in C by generating library files.
+
+10)Companion apps, which connect a user's smartphone or tablet to hardware, typically use Bluetooth or Wi-Fi to establish a wireless connection. Bluetooth is a short-wavelength radio wave standard for connecting devices over short distances, while Wi-Fi is a wireless networking standard. 
+Other network technologies that can be used to communicate with a smartphone include:
+5G: The fifth generation of cellular wireless technology that uses high frequencies to deliver more data at faster speeds to more devices
+NFC/RFID: A technology that uses tags with embedded microchips to transmit data
+
+11)It's won't work in most cases. Changing the ownership of the file to the user may grant them more control over the file, but it doesn't necessarily grant them access to the file contents if the file permissions are still restricted. File permissions are usually set to control access to files, and ownership is just one aspect of that control. Even if the user becomes the owner of the file, if the file permissions are set to restrict access to certain users or groups, the user will still be denied access unless those permissions are also modified. This is achieved through isolation of the file. However, if the file permissions allow read access to the owner and the user becomes the owner of the file, then yes, it would work. But changing ownership alone doesn't automatically change permissions, so it depends on how the permissions are configured.
+
+
+12)Yes this can be done through Federated learning which is a technique that allows for model training across multiple devices without sharing raw data. Instead, only model updates are exchanged between the devices and a central server. This way, each device can contribute to improving the predictive text model without compromising the privacy of individual keystrokes.
+In the context of predictive text on a smartphone, federated learning would involve training the model collaboratively across multiple smartphones, with each device learning from its own typing patterns and contributing to the overall model's improvement. This ensures that the predictive text feature becomes more personalized to each user's typing habits over time, all while keeping sensitive data on the device and away from the cloud. While also being able to use the cloud's compute capability to train the model which the smartphone lacks
+
+
+13)Yes, the possibility of malicious behavior in crowdsensing is indeed a significant concern. Crowdsensing relies on the contributions of individuals or devices to collect data, and this open participation creates opportunities for malicious actors to inject false or misleading information. This can undermine the integrity and reliability of the data collected, leading to inaccurate analyses and conclusions.
+This could be mitigated by strategies like:
+Anomaly Detection: Analytical models for anomaly detection can be developed to identify suspicious or malicious behavior based on deviations from expected patterns or norms.
+Incentive Design: Analytical models can be used to design incentive mechanisms that discourage malicious behavior and encourage honest participation in crowdsensing networks.
+Trust and Reputation Systems: Trust and reputation systems can be utilized to assess the reliability of contributions from individual devices or users in crowdsensing networks.
+
+
+14)If an app has to run multiple neural networks, it can run the ones that do not require high accuracy on the NPUs as NPU consumes less power to run a neural network ( as it does integer level quantisations so less no. of calculations) because of which the results are faster. But this also leads to lesser accuracy. While the neural networks that require higher accuracy could be offloaded to the cloud as they require more accuracy.
+
+
+15)This could be done by manually keeping track of the number of steps a user has taken and then using fusion algorithms and basic arithmetic to compare the results one gets from the different phones in the pocket end eventually identify the actual number of steps based on the deltas evaluated from the averages of multiple tests between the estimated parameter and the actual parameters.
+
